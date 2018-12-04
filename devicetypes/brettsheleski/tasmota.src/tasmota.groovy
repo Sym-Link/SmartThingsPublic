@@ -7,15 +7,10 @@ metadata {
         command "updateStatus"
 
         attribute "module", "string"
-        attribute "friendlyName", "string"
         attribute "version", "string"
         attribute "topic", "string"
-        attribute "groupTopic", "string"
-        attribute "ssid1", "string"
-        attribute "ssid2", "string"
         attribute "hostname", "string"
         attribute "macAddress", "string"
-        attribute "upTime", "string"
         attribute "vcc", "number"
         attribute "apSsid", "string"
         attribute "apMac", "string"
@@ -31,10 +26,6 @@ metadata {
 			state "module", label: 'Module: ${currentValue}', backgroundColor: "#ffffff"
 		}
 
-        valueTile("friendlyName", "friendlyName", width: 3, height: 1) {
-			state "friendlyName", label: "Friendly Name: ${currentValue}", backgroundColor: "#ffffff"
-		}
-
         valueTile("version", "version", width: 3, height: 1) {
 			state "version", label: 'Tasmota Version: ${currentValue}', backgroundColor: "#ffffff"
 		}
@@ -42,29 +33,13 @@ metadata {
         valueTile("topic", "topic", width: 3, height: 1) {
 			state "topic", label: 'Topic: ${currentValue}', backgroundColor: "#ffffff"
 		}
-
-        valueTile("groupTopic", "groupTopic", width: 3, height: 1) {
-			state "groupTopic", label: "Group Topic: ${currentValue}", backgroundColor: "#ffffff"
-		}
-
-        valueTile("ssid1", "ssid1", width: 3, height: 1) {
-			state "ssid1", label: 'SSID #1: ${currentValue}', backgroundColor: "#ffffff"
-		}
-
-        valueTile("ssid2", "ssid2", width: 3, height: 1) {
-			state "ssid2", label: 'SSID #2: ${currentValue}', backgroundColor: "#ffffff"
-		}
-
+		
         valueTile("hostname", "hostname", width: 3, height: 1) {
 			state "hostname", label: 'Hostname: ${currentValue}', backgroundColor: "#ffffff"
 		}
 
         valueTile("macAddress", "macAddress", width: 3, height: 1) {
 			state "macAddress", label: 'MAC Address: ${currentValue}', backgroundColor: "#ffffff"
-		}
-
-        valueTile("upTime", "upTime", width: 3, height: 1) {
-			state "upTime", label: "Up Time: ${currentValue}", backgroundColor: "#ffffff"
 		}
 
         valueTile("vcc", "vcc", width: 3, height: 1) {
@@ -80,7 +55,7 @@ metadata {
 		}
 
 		main "refresh"
-		details(["refresh", "module", "friendlyName", "version", "topic", "groupTopic", "ssid1", "ssid2", "hostname", "macAddress", "upTime", "vcc", "apSsid", "apMac"])
+		details(["refresh", "module", "version", "topic", "hostname", "macAddress", "vcc", "apSsid", "apMac"])
 	}
 
     
@@ -438,12 +413,8 @@ def refreshCallback(physicalgraph.device.HubResponse response){
     sendEvent(name : "module", value : response?.json?.Status?.Module)
     sendEvent(name : "version", value : response?.json?.StatusFWR?.Version)
     sendEvent(name : "topic", value : response?.json?.Status?.Topic)
-    sendEvent(name : "groupTopic", value : response?.json?.Status?.GroupTopic)
-    sendEvent(name : "ssid1", value : response?.json?.StatusLOG?.SSId1)
-    sendEvent(name : "ssid2", value : response?.json?.StatusLOG?.SSId2)
     sendEvent(name : "hostname", value : response?.json?.StatusNET?.Hostname)
     sendEvent(name : "macAddress", value : response?.json?.StatusNET?.Mac)
-    sendEvent(name : "upTime", value : response?.json?.StatusSTS?.UPtime)
     sendEvent(name : "vcc", value : response?.json?.StatusSTS?.Vcc)
     sendEvent(name : "apSsid", value : response?.json?.StatusSTS?.Wifi?.SSId)
     sendEvent(name : "apMac", value : response?.json?.StatusSTS?.Wifi?.APMac)
